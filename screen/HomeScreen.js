@@ -1,15 +1,25 @@
-import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
+import { StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator } from "react-native";
 import Card from "../components/card";
 import { useEffect, useState } from "react";
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const [posts, setPosts] = useState([]);
+  const [limit, setLimit] = useState(2);
+  const [skip, setSkip] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   const getData = async () => {
     try {
-      let res = await fetch("https://dummyjson.com/posts");
+      setIsLoading(true);
+      let res = await fetch(
+        `https://dummyjson.com/posts?limit=${limit}&skip=${skip}`
+      );
       let data = await res.json();
       data = data.posts;
-      setPosts(data);
+      setPosts([...posts, ...data]);
+      setLimit(limit);
+      setSkip(skip + 2);
+      setIsLoading(false);
     } catch (e) {
       console.warn(e);
     }
@@ -18,6 +28,15 @@ export default function HomeScreen() {
   useEffect(() => {
     getData();
   }, []);
+
+  const renderFooter = () => {
+    if (!isLoading) return null;
+    return (
+      <View style={{ paddingVertical: 20 }}>
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={{ paddingVertical: 20, backgroundColor: "#1B2838" }}>
@@ -33,6 +52,9 @@ export default function HomeScreen() {
             commentsID={item.userId}
           />
         )}
+        onEndReached={getData}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={renderFooter}
       />
     </SafeAreaView>
   );

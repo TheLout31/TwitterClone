@@ -41,7 +41,7 @@ export default function Comments({ id }) {
           flex: 1,
 
           justifyContent: "space-between",
-          maxWidth: "auto",
+          maxWidth: "100%",
           backgroundColor: "#171D25",
           borderRadius: 20,
           padding: 10,
@@ -53,20 +53,64 @@ export default function Comments({ id }) {
             <View
               key={index}
               style={{
+                flexDirection:'row',
+                maxWidth:'100%',
                 backgroundColor: "#1B2838",
                 marginBottom: 10,
                 borderRadius: 15,
                 padding: 10,
-                position:'relative'
+                position: "relative",
               }}
             >
+              <Ionicons name="person-circle-sharp" size={20} color="white" />
+              <View style={{flexDirection:'column', marginLeft:5}}>
+                <View style={{ flexDirection: "row" }}>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      marginRight: 5,
+                      color: "white",
+                    }}
+                  >
+                    {com.user.username}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 9,
+                      fontWeight: "200",
+                      paddingVertical: 7.8,
+                    }}
+                  >
+                    comments
+                  </Text>
+                </View>
+
+                <Text style={{ color: "white" }}>{com.body}</Text>
+              </View>
+            </View>
+          ))
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#1B2838",
+              marginBottom: 10,
+              borderRadius: 15,
+              padding: 10,
+            }}
+          >
+            <Ionicons name="person-circle-sharp" size={20} color="white" />
+            <View style={{ flexDirection: "column", marginLeft: 5 }}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ fontWeight: "bold", marginRight: 5,color:'white' }}>
-                  {com.user.username}
+                <Text
+                  style={{ fontWeight: "bold", marginRight: 5, color: "white" }}
+                >
+                  {comments[0]?.user?.username}
                 </Text>
                 <Text
                   style={{
-                    color:'white',
+                    color: "white",
                     fontSize: 9,
                     fontWeight: "200",
                     paddingVertical: 7.8,
@@ -76,44 +120,17 @@ export default function Comments({ id }) {
                 </Text>
               </View>
 
-              <Text style={{color:'white',}}>{com.body}</Text>
+              <Text style={{ color: "white" }}>{comments[0]?.body}</Text>
             </View>
-          ))
-        ) : (
-          <View
-            style={{
-              backgroundColor: "#1B2838",
-              marginBottom: 10,
-              borderRadius: 15,
-              padding: 10,
-            }}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <Text style={{ fontWeight: "bold", marginRight: 5, color:'white' }}>
-                {comments[0]?.user?.username}
-              </Text>
-              <Text
-                style={{
-                  color:'white',
-                  fontSize: 9,
-                  fontWeight: "200",
-                  paddingVertical: 7.8,
-                }}
-              >
-                comments
-              </Text>
-            </View>
-
-            <Text style={{color:'white',}}>{comments[0]?.body}</Text>
           </View>
         )}
         {clicked ? (
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Ionicons name="chevron-up-outline" size={32} color='#1DA1F2'/>
+            <Ionicons name="chevron-up-outline" size={32} color="#1DA1F2" />
           </View>
         ) : (
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Ionicons name="chevron-down-outline" size={32} color='#1DA1F2'/>
+            <Ionicons name="chevron-down-outline" size={32} color="#1DA1F2" />
           </View>
         )}
       </TouchableOpacity>
